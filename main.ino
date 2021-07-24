@@ -1,5 +1,7 @@
-// C++ code
-//
+/***
+*@autor: Charles Soarez
+*Date: 07-24-2021
+*/
 void setup()
 {
   Serial.begin(9600);
