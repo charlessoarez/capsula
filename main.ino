@@ -44,7 +44,7 @@ void loop()
   * Si no se cumple la condición se pone en 0 o en LOW
   */
   if(digitalRead(12)){ //
-  	digitalWrite(7, HIGH); /
+  	digitalWrite(7, HIGH);
     sensorHumedad = true;
   }else
     digitalWrite(7, LOW); 
