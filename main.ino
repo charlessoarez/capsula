@@ -48,7 +48,7 @@ void loop()
     sensorHumedad = true;
   }else
     digitalWrite(7, LOW); 
-  
+
   /***
   * Si el Pin 11 recibe una señal se pone en HIGH o en 1 el pin 6
   * Se enciende el LED verde para mostrar visualmente que
@@ -73,14 +73,8 @@ void loop()
   }else
     digitalWrite(5, LOW);
   
-  /***
-  * Si el Pin 9 recibe una señal se pone la variable sensorCorte a ture
-  */
-  
-  if (digitalRead(9)){
-    sensorCorte = true;
-  }
-    
+  // Si el Pin 9 recibe una señal se pone la variable sensorCorte a true.
+  if (digitalRead(9))sensorCorte = true;
     
   if(sensorHumedad == true && sensorTemperatura == true && 
      sensorBarrera == true && sensorCorte == true){
@@ -89,8 +83,5 @@ void loop()
     delay(200);
   }else{
     digitalWrite(4, LOW);
-    //Serial.println("No see cosecha");
-    delay(200);
   }
-  
 }
