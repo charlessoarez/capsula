@@ -1,2 +1,3 @@
 # capsula
-Source code for the proof of concept of combinational circuits of the project: Crop capsule and auto harvest.
+This is an experimental project, a proof of concept about a crop capsule self harvest system.
+The real physical project referes to a capsule that provides some sensors and some actuators to monitor and self harvest a real plant.
