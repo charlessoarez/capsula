@@ -40,7 +40,7 @@ void loop(){
 		optimalTemperature = false,
   		optimalDistance = false, 
   		selectToCut = false;
-     printToLcd("hola");
+
   if(getHumidity() > OPT_HUM){
   	optimalHumidity = true;
     digitalWrite(PIN_RED_LED, HIGH);
