@@ -22,8 +22,10 @@ const float OPT_DIST = 40.0;
 #define MIN_PULSE 1000
 #define MAX_PULSE 2000
 
+//Create a LiquidCrystal object
+LiquidCrystal lcd(1, 0, 6, 5, 4, 3);
+
 void setup(){
-	Serial.begin(9600);	
   	pinMode(PIN_ECHO, INPUT);
   	pinMode(PIN_TRIGGER, OUTPUT);
   	pinMode(PIN_BUTTON, INPUT);	
@@ -42,28 +44,27 @@ void loop(){
   		selectToCut = false;
 
   if(getHumidity() > OPT_HUM){
-  	optimalHumidity = true;
-    digitalWrite(PIN_RED_LED, HIGH);
-    Serial.println("Optimal humidity: " + (String)(getHumidity()/100));
+  	digitalWrite(PIN_RED_LED, HIGH);
+    optimalHumidity = true;
+    printToLcd("Optimal humidity: " + (String)(getHumidity()/100) );
+   	Serial.println("Optimal humidity: " + (String)(getHumidity()/100));
   }else{
- 	digitalWrite(PIN_RED_LED, LOW);
-  	Serial.println("Not an oprimtal humidity: " + (String)(getHumidity()));
+    digitalWrite(PIN_RED_LED, LOW);
+    printToLcd("Not an oprimtal humidity: " + (String)(getHumidity()/100) );
+    Serial.println("Not an oprimtal humidity: " + (String)(getHumidity()));
   }
-  
-  delay(200);
-  
+    
   if(getTemperature() > OPT_TEMP){
    	optimalTemperature = true; 
     digitalWrite(PIN_GREEN_LED, HIGH);
-    Serial.println("Optimal temperature: " + (String)(getTemperature()));
     printToLcd("Optimal temperature: " + (String)(getTemperature()));
+    Serial.println("Optimal temperature: " + (String)(getTemperature()));
   }else{
     digitalWrite(PIN_GREEN_LED, LOW);
+    printToLcd("Not optimal temperature: " + (String)(getTemperature()));
   	Serial.println("Not an oprimtal temperature: " + (String)(getTemperature()));
   }
-  
-  delay(200);
-  
+    
   if(getDistance() > OPT_DIST){
   	optimalDistance = true;
     digitalWrite(PIN_BLUE_LED, HIGH);
@@ -73,8 +74,6 @@ void loop(){
     Serial.println("Not optimal Distance: " + (String)(getDistance()) + " cm");
   }
   
-  delay(200);
-  
   if(isButtonPressed()){
   	selectToCut = true;
     Serial.println("The user pressed the harvest button: " + (String)(isButtonPressed()));
@@ -82,20 +81,16 @@ void loop(){
   	selectToCut = false;
         digitalWrite(PIN_WHITE_LED, LOW);
   }
-  
-  delay(200);
-  
+    
   if(optimalHumidity && optimalTemperature && optimalDistance && selectToCut){
   	printToLcd("It is harvest time!");
     digitalWrite(PIN_WHITE_LED, HIGH);
     //Here we call the servo to move the ramp
     elevateServoRamp(1);
     //Then we wait a litle and close put se servo in the normal state
-    delay(10000);
+    delay(1000);
     elevateServoRamp(0);
   }
-  
-  delay(200);
 }
 
 /**
@@ -172,16 +167,16 @@ bool isButtonPressed(){
 /**
  * Method that prints messages in the LCD 
  */
-void printToLcd(String message){
-	//Creates an LCD object 
-  LiquidCrystal lcd(1, 0, 6, 5, 4, 3);
-  
-  lcd.begin(16, 2);
-  
-  lcd.print("LCD");
-  Serial.println("LCD");
-  delay(1000);
-  //lcd.clear();
+void printToLcd(String message){ 
+	lcd.begin(16, 2);
+ 	lcd.clear();
+  	lcd.print(message);
+  	for(int i = 0; i < message.length(); ++i){
+  		lcd.scrollDisplayLeft();
+      	delay(200);
+  	}
+	
+  	delay(2000);
 }
 
 /**
